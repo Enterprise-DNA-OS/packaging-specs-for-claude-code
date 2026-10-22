@@ -1,0 +1,12 @@
+{
+  "code": "Specification Code",
+  "name": "Specification Name",
+  "supplier": "Supplier",
+  "owner": "Owner",
+  "material": "Material",
+  "mass": "Mass g",
+  "recycled": "Recycled Percent",
+  "food-contact": "Food Contact",
+  "use": "Intended Use",
+  "review-due": "Review Due"
+}

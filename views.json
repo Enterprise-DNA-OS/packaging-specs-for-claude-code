@@ -1,13 +1,32 @@
 [
   {
     "name": "week",
-    "title": "This week",
-    "subtitle": "Packaging Specs for Claude Code: what needs attention, rendered by npm run view",
+    "title": "Packaging review week",
     "sections": [
       {
-        "title": "Needs attention",
-        "note": "TODO(author): point this at the industry's attention view (overdue, stuck, quiet).",
-        "sql": "select 'replace me' as item, 'TODO(author)' as why"
+        "title": "Specification reviews",
+        "sql": "select * from packaging_week order by findings desc,code"
+      }
+    ]
+  },
+  {
+    "name": "evidence",
+    "title": "Supplier evidence",
+    "sections": [
+      {
+        "title": "Open evidence checks",
+        "sql": "select code,name,rule,issue from compliance_findings order by code,rule"
+      }
+    ]
+  },
+  {
+    "name": "materials",
+    "title": "Packaging material mass",
+    "sections": [
+      {
+        "title": "Nominal mass per pack",
+        "note": "Declared component weights and recycled percentages. Not measured waste, recyclability or a statutory return.",
+        "sql": "select product_code,product,mass_per_pack_g,claimed_recycled_g from packaging_mass order by product_code"
       }
     ]
   }

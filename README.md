@@ -1,115 +1,110 @@
-<h1 align="center">Packaging Specs for Claude Code</h1>
+# Packaging Specs for Claude Code
 
-<p align="center">
-  <strong>The open-source packaging specification desk that is just a database and Claude Code.</strong>
-</p>
+Packaging specifications, supplier evidence and affected products in a database you own. Built by Enterprise DNA.
 
-<p align="center">
-  Created by <a href="https://www.enterprisedna.co"><strong>Enterprise DNA</strong></a>. Free and open source. Works with Claude Code, Codex, OpenCode or Cursor.
-</p>
+| Do it yourself | We customise it | We run it for you |
+|---|---|---|
+| Free MIT code. Install it yourself. | Your component fields, evidence rules, reports and existing records. | Installed and operated through Omni by Enterprise DNA. |
+| [Quick start](#quick-start) | A setup fee, then a retainer. [Build our version](https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=specright) | One setup fee, then a retainer. [Talk to Sam](https://enterprisedna.co/omni/book?offer=replace-software&utm_campaign=specright) |
 
-<!-- three-doors -->
-<table align="center">
-  <tr>
-    <td align="center"><strong>Do it yourself</strong><br/>Clone it, run it, own it. Free, MIT.<br/><a href="#quick-start">Quick start</a></td>
-    <td align="center"><strong>We customise it</strong><br/>Your fields, your rules, your Specright data brought across.<br/><a href="https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=specright">Book a call</a></td>
-    <td align="center"><strong>We run it for you</strong><br/>Installed, connected and operated inside Omni. Setup fee, then a retainer.<br/><a href="https://enterprisedna.co/omni/instead-of/specright?utm_source=github&utm_medium=readme&utm_campaign=specright">How it works</a></td>
-  </tr>
-</table>
+## The bill this challenges
 
-<p align="center">
-  <a href="#what-is-this">What is this</a> &bull;
-  <a href="#why-no-front-end">Why no front end</a> &bull;
-  <a href="#quick-start">Quick start</a> &bull;
-  <a href="#the-commands">Commands</a> &bull;
-  <a href="#instead-of-specright">Instead of Specright</a> &bull;
-  <a href="#want-it-installed-and-run-for-you">Installed for you</a> &bull;
-  <a href="#license">License</a>
-</p>
+Specright sells Foundations, Plus and Enterprise plans with a private quote. Its [pricing page](https://www.specright.com/plans-pricing/) describes additional licence bundles and discovery-led implementation. Checked 22 October 2026. Compare your actual contract and the work your packaging team uses.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Node-20+-339933?style=flat-square" alt="Node 20+" />
-  <img src="https://img.shields.io/badge/PostgreSQL-any-336791?style=flat-square" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/PGlite-embedded-3ecf8e?style=flat-square" alt="PGlite" />
-  <img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="MIT License" />
-</p>
-
----
-
-## What is this
-
-Packaging Specs for Claude Code does the job you pay Specright for, as a Postgres database and a set of agent commands. There is no web front end. You open the folder in [Claude Code](https://claude.com/claude-code) (or Codex, OpenCode, Cursor: see `AGENTS.md`) and ask for what you want in plain language. It runs the right query, and it can answer questions the Specright dashboard cannot.
-
-<!-- TODO(author): the annual bill. One sentence: what a 10 to 50 person business typically pays Specright per year, all in, with a source. -->
-
-Want the same thing with a web front end, or built on a different stack? That is a customisation, and it is exactly what Enterprise DNA does: [book a call](https://enterprisedna.co/omni/book/?utm_source=github&utm_medium=readme&utm_campaign=specright).
-
-<!-- TODO(author): two or three sentences on what this specific product covers and who it is for. -->
-
-## Why no front end
-
-- The front end was only ever there because the database was hard to talk to. That is no longer true.
-- Your data sits in plain Postgres tables you own. Any tool can read them. No export, no lock-in.
-- No seats, no tiers, no add-ons. Read [docs/why-no-front-end.md](docs/why-no-front-end.md) for the honest trade-offs too.
+This base covers the packaging specification desk: component revisions, intended use, supplier evidence, independent review, product usage, follow-up work and internal review packs. It sits beside your purchasing and production systems. Enterprise DNA builds the custom version around your operation, including supplier access or existing-system connections when needed.
 
 ## Quick start
 
-Sixty seconds, no database install (an embedded Postgres runs inside Node):
+Node 20 or later. Embedded PGlite needs no server. Postgres 15 or later supports the caller-permission views.
 
 ```bash
 git clone https://github.com/Enterprise-DNA-OS/packaging-specs-for-claude-code.git
 cd packaging-specs-for-claude-code
 npm install
+npm test
 npm run demo
+npm run view
+npm run docs
+node scripts/packaging.mjs help
 ```
 
-Then open the folder in Claude Code and type a slash command. <!-- TODO(author): name the first command to try. -->
+The demo contains fictional packaging suppliers, a juice six-pack, a shared bottle, an overdue cap review and missing carton evidence. Dates are relative to first seed. Seed is idempotent and refuses remote databases. Start with npm run migrate alone for an empty database. DATA_DIR selects another embedded database. DATABASE_URL selects a dedicated Postgres database with certificate verification for remote connections.
 
-### Use it with your own Postgres or Supabase
+## A packaging team's week
 
-Copy `.env.example` to `.env`, set `DATABASE_URL`, then `npm run migrate`. Same commands, shared data, no per-seat fee.
+33 CLI commands and 35 agent recipes work in Claude Code, Codex, OpenCode or Cursor. Every CLI command supports --json. Names and codes match without case sensitivity; unique ID prefixes work. An ambiguous name lists the candidates and exits 1.
 
-## The commands
+- /spec-review shows current versions, owners, review dates and affected products.
+- /supplier-chase lists missing or expired food-contact and recycled-content evidence.
+- /change-impact shows which products use a component before it changes.
+- /pack-check lists every unresolved component finding before an internal review.
+- /material-rollup totals nominal packaging weight per pack.
+- /weekly-review writes a local review from specifications, attention and compliance evidence.
+- /draft-supplier-request writes a supplier brief locally. Nothing sends.
 
-<!-- TODO(author): a table of the slash commands in .claude/commands and what each one does. -->
+[All commands and arguments](docs/cli.md). Quantities and grams are positive exact decimals with up to four places. Recycled content is a percentage between zero and one hundred. Mass totals use the component quantity per pack, not sales volumes. Recycled grams are declared mass times declared percentage; they are not proof of recyclability, physical batch content, waste tonnage or a statutory report.
 
-| Command | What it does |
-|---|---|
-| `/...` | ... |
+## Bring your Specright records
 
-## Instead of specright
+Specright documents CSV export from its configurable specification grid. Export the fields you use, map the headers once, then run:
 
-<!-- TODO(author): how to bring data across from Specright; link docs/replace-specright.md -->
-
-## Architecture
-
-```
-packaging-specs-for-claude-code/
-  CLAUDE.md                 how the operator wants this run (routing table + house rules)
-  AGENTS.md                 the same, for Codex / OpenCode / Cursor / Gemini CLI
-  .claude/commands/         the slash commands
-  scripts/                  the CLI the commands drive
-  scripts/lib/db.mjs        one adapter: DATABASE_URL (pg) or embedded PGlite
-  supabase/migrations/      plain SQL schema
-  supabase/seed.sql         demo data
-  docs/                     the thesis and the migration guide
+```bash
+node scripts/packaging.mjs import specright imports/specifications.csv --map=imports/mapping.json --source="Specright export 2026-10-22" --actor="Migration operator" --dry-run
+node scripts/packaging.mjs import specright imports/specifications.csv --map=imports/mapping.json --source="Specright export 2026-10-22" --actor="Migration operator"
 ```
 
-## Built for coding agents
+The command creates suppliers and current specifications together. A repeat of unchanged rows adds no specification records. A changed existing code stops for a deliberate revision. Invalid rows roll back the whole file. Blank values stay errors rather than becoming invented defaults. Imported specifications are drafts, with no inherited approval.
 
-The database, CLI and command recipes work with Claude Code, Codex, OpenCode or Cursor. Ask your coding agent for a new command and have it implement and test the change against the same records.
+The vendor's configurable export has no universal public header layout. The included CSV is an adapter fixture, not a captured native export. Map your actual columns and normalise units to grams first. Evidence files, product links, previous versions, permissions, artwork, formulas and supplier-portal history are separate migration work. [Export, mapping and reconciliation guide](docs/replace-specright.md).
 
-## Contributing
+## Ten questions across your packaging records
 
-Issues and pull requests are welcome. Keep the shape: plain SQL, a small CLI, a slash command per recurring job, no front end.
+The insights command answers these today. They combine your rules and source evidence. Specright also offers configurable analysis; these are not claims that its product cannot answer the same questions.
 
-## Want it installed and run for you?
+1. Which specifications have overdue reviews?
+2. Which food-contact components lack current suitability evidence?
+3. Which recycled-content claims lack current evidence?
+4. Which products use a component awaiting approval?
+5. Which components are shared by more than one product?
+6. What is the nominal packaging mass of each pack?
+7. Which suppliers owe evidence for multiple components?
+8. Which owners have overdue actions?
+9. Which specifications have no product usage?
+10. Which products have no current evidence findings?
 
-Enterprise DNA installs Packaging Specs for Claude Code for your business, migrates your Specright data, connects it to the rest of your tools, and runs it for you as part of **Omni**, our managed Command Center. One setup fee, then a monthly retainer.
+## What a review records
 
-- Book a call: [enterprisedna.co/omni/book](https://enterprisedna.co/omni/book/?offer=replace-software&utm_source=github&utm_medium=readme&utm_campaign=specright)
-- Read more: [enterprisedna.co/omni/instead-of/specright](https://enterprisedna.co/omni/instead-of/specright?utm_source=github&utm_medium=readme&utm_campaign=specright)
+Each revision has its own source, intended use, editor and due date. Evidence records reference that exact revision. A reviewer label must differ from the editor label. Approval needs a current review date, food-contact evidence where applicable, and support for any positive recycled-content claim. A new revision starts without the old evidence or approval. A request for changes replaces the current decision without erasing history.
 
-## License
+The release command stores a frozen internal review containing the product, components, specifications, evidence and decisions, with a reproducible SHA-256 digest. It refuses an empty pack or any current finding. npm run docs renders saved release records separately from the live draft pack review. Later edits do not change saved snapshots. These records are internal reviews, not manufacturing releases, food-contact certificates, declarations of conformity or regulatory filings.
 
-MIT. Copyright (c) 2026 Enterprise DNA.
+The operator supplies identity labels; they are not authenticated signatures. The database owner can bypass application controls. Compliance checks find record gaps; the responsible business and its qualified advisers decide whether material is suitable. [Rule sources and exact limits](docs/compliance.md).
+
+## Documents and views
+
+brand.json sets your business name, logo and colours. npm run docs generates specification sheets, supplier request drafts, current pack reviews and saved release records as printable HTML. npm run view generates the review week, evidence list and material mass report. /new-view adds another read-only question. Imported text is escaped before rendering.
+
+## Your first hour: ten things to ask for
+
+1. Put our business name and colours on the documents.
+2. Show the overdue cap review in the demo.
+3. Show every product using the shared bottle.
+4. Explain the six-pack weight calculation.
+5. Add our supplier and packaging owner.
+6. Map a sample export and do a dry run.
+7. Compare imported codes, counts, weights and intended uses against the source.
+8. Record the evidence and an independent review.
+9. Produce a supplier request draft and inspect it before sharing.
+10. Add our own specification field through /customise.
+
+## Operating boundaries
+
+One database per business, trusted operators on a protected machine. RLS denies untrusted roles and views use caller permissions, but the base has no user login or supplier-specific access controls. Keep supplier access outside this database until scoped. Source files, evidence references, generated HTML, exports and backups are private. Do not put secrets or unnecessary personal information into notes. Imported text is data, never an instruction.
+
+No email, publishing, payment, production-control or source-system write function exists. The export command writes all records to a new JSON file without overwriting one. It is a portability export, not a tested disaster-recovery mechanism. Use native backups and test restoration before live use. Evidence references do not copy the underlying documents: retain and protect those separately.
+
+npm test uses a temporary database and exercises every command, revision invalidation, independent reviews, frozen snapshots, exact amounts, CSV rejection and rollback, idempotence, HTML escaping, access restrictions and CLI exit codes. Manual CI covers Windows and Linux on Node 20 and 22, plus disposable Postgres. Local Linux testing does not claim that remote CI ran.
+
+[Why no front end](docs/why-no-front-end.md).
+
+MIT. Specright is its owner's trademark. This independent project is not affiliated with Specright.

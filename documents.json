@@ -1,11 +1,67 @@
 [
   {
-    "name": "example",
-    "title": "TODO(author): the first document this industry must produce",
-    "for_each": "select gen_random_uuid() as id, 'Example' as name",
+    "name": "specification-sheet",
+    "title": "Packaging specification sheet: internal draft",
+    "for_each": "select id,code from specs order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Current specification",
+        "sql": "select code,name,version,material,mass_g,recycled_percent,food_contact,intended_use,source,review_due,status from current_specs where id=$1"
+      },
+      {
+        "title": "Evidence references",
+        "sql": "select e.kind,e.reference,e.valid_until,e.checked_by,e.suitability_note from evidence e join current_specs s on s.revision_id=e.revision_id where s.id=$1"
+      },
+      {
+        "title": "Findings",
+        "sql": "select rule,issue from compliance_findings where id=$1"
+      }
+    ]
+  },
+  {
+    "name": "supplier-request",
+    "title": "Supplier evidence request: draft, not sent",
+    "for_each": "select id,name from suppliers order by name",
     "file": "name",
     "sections": [
-      { "title": "Details", "sql": "select 'replace me' as item, $1::text as record_id" }
+      {
+        "title": "Evidence to obtain",
+        "sql": "select s.code,s.name,f.issue from current_specs s join compliance_findings f on f.id=s.id where s.supplier_id=$1 and f.rule in ('FOOD','RECYCLED') order by s.code"
+      }
+    ]
+  },
+  {
+    "name": "pack-review",
+    "title": "Packaging pack review: internal draft",
+    "for_each": "select id,code from products order by code",
+    "file": "code",
+    "sections": [
+      {
+        "title": "Components",
+        "sql": "select product_code,spec_code,version,status,quantity,component_mass_g from product_impact where product_id=$1 order by spec_code"
+      },
+      {
+        "title": "Unresolved findings",
+        "sql": "select f.code,f.rule,f.issue from compliance_findings f join components c on c.spec_id=f.id where c.product_id=$1 order by f.code"
+      },
+      {
+        "title": "Mass",
+        "sql": "select mass_per_pack_g,claimed_recycled_g from packaging_mass where product_id=$1"
+      }
+    ]
+  },
+  {
+    "name": "release-record",
+    "title": "Frozen packaging review: internal use",
+    "for_each": "select id,id::text as name from releases order by created_at",
+    "file": "name",
+    "sections": [
+      {
+        "title": "Frozen evidence and digest",
+        "sql": "select actor,created_at,digest,snapshot from releases where id=$1",
+        "note": "A historical internal review record. Not a declaration of conformity or permission to manufacture."
+      }
     ]
   }
 ]
